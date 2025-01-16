@@ -29,10 +29,12 @@ const App = () => {
       {/* Main layout */}
       <Layout style={{ marginLeft: collapsed ? 80 : 250 }}> {/* Ancho dinámico según el estado del Sidebar */}
         {/* Header */}
-        <CustomHeader />
+        {/* <CustomHeader /> */}
 
         {/* Main content */}
-        <Content style={{ marginTop: 50, padding: '24px 16px', background: '#fff' }}>
+        {/* <Content style={{ marginTop: 50, padding: '24px 16px', background: '#fff' }}> */}
+        <Content style={{ margin: '0 16px', padding: '24px', background: '#fff', marginTop: '20px' }}>
+
           {/* Breadcrumb */}
         <DynamicBreadcrumb />
           <Routes>
