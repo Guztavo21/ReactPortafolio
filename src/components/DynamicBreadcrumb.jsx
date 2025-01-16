@@ -23,7 +23,7 @@ const DynamicBreadcrumb = () => {
     }),
   ];
 
-  return <Breadcrumb style={{ margin: '16px 16px' }}>{breadcrumbItems}</Breadcrumb>;
+  return <Breadcrumb style={{ margin: '5px 5px' }}>{breadcrumbItems}</Breadcrumb>;
 };
 
 export default DynamicBreadcrumb;

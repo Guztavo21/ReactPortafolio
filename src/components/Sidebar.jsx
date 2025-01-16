@@ -1,5 +1,4 @@
-// src/components/Sidebar.jsx
-import React, { useState } from 'react';
+import React from 'react';
 import { DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom'; // Importar Link para redirecciones
@@ -29,11 +28,22 @@ const items = [
   getItem('Files', '9', <FileOutlined />, '/files'),
 ];
 
-const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false);
-
+const Sidebar = ({ collapsed, setCollapsed }) => {
   return (
-    <Layout.Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} width={250}>
+    <Layout.Sider
+      collapsible
+      collapsed={collapsed}
+      onCollapse={(value) => setCollapsed(value)}
+      width={250}
+      style={{
+        position: 'fixed',  // Fija el Sidebar
+        height: '100vh',     // Ocupa toda la altura de la ventana
+        left: 0,             // Pegado a la izquierda
+        top: 0,              // Pegado a la parte superior
+        zIndex: 1000,        // Asegura que esté por encima del contenido
+        transition: 'all 0.3s', // Suaviza la transición al cambiar el estado
+      }}
+    >
       <div
         className="logo"
         style={{

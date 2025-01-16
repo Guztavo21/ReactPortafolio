@@ -1,5 +1,5 @@
 // src/App.js
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './index.css';
 import { Layout } from 'antd';
@@ -19,26 +19,27 @@ import DynamicBreadcrumb from './components/DynamicBreadcrumb';
 const { Content } = Layout;
 
 const App = () => {
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
       {/* Main layout */}
-      <Layout>
-        {/* Header (Navbar) */}
-        
+      <Layout style={{ marginLeft: collapsed ? 80 : 250 }}> {/* Ancho dinámico según el estado del Sidebar */}
+        {/* Header */}
         <CustomHeader />
 
-        <DynamicBreadcrumb />
         {/* Main content */}
-        <Content style={{ margin: '0 16px', padding: '24px', background: '#fff' }}>
-        
+        <Content style={{ marginTop: 50, padding: '24px 16px', background: '#fff' }}>
+          {/* Breadcrumb */}
+        <DynamicBreadcrumb />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/projects" element={<Projects />} />
-            <Route path="/Contact" element={<Contact />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
         </Content>
 
