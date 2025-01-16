@@ -1,10 +1,20 @@
 // src/App.js
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './index.css';
-import { Layout, Breadcrumb } from 'antd';
-import CustomHeader from './components/Header'; // Importa el Header
-import CustomFooter from './components/Footer'; // Ajusta la ruta según sea necesario
-import Sidebar from './components/Sidebar'; // Importa el Sidebar
+import { Layout } from 'antd';
+
+import CustomHeader from './components/Header';
+import CustomFooter from './components/Footer';
+import Sidebar from './components/Sidebar';
+
+import About from './pages/About';
+import Home from './pages/Home';
+import Projects from './pages/Projects';
+import Contact from './pages/Contact';
+
+// DynamicBreadcrumb es un componente que genera un breadcrumb dinámico
+import DynamicBreadcrumb from './components/DynamicBreadcrumb';
 
 const { Content } = Layout;
 
@@ -17,27 +27,19 @@ const App = () => {
       {/* Main layout */}
       <Layout>
         {/* Header (Navbar) */}
+        
         <CustomHeader />
 
+        <DynamicBreadcrumb />
         {/* Main content */}
-        <Content style={{ margin: '0 16px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
-
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: 'white', // Puedes modificar esto si usas el tema de Ant Design
-              borderRadius: '8px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.05)',
-            }}
-          >
-            Contenido principal
-          </div>
+        <Content style={{ margin: '0 16px', padding: '24px', background: '#fff' }}>
+        
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/Contact" element={<Contact />} />
+          </Routes>
         </Content>
 
         {/* Footer */}
