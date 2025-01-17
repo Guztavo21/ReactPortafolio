@@ -1,25 +1,86 @@
 // src/components/Sidebar.jsx
-import React from 'react';
-import { DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
-import { Link } from 'react-router-dom'; // Importar Link para redirecciones
+import React, { useEffect, useState } from 'react';
+import { Menu, Layout, Drawer, Button } from 'antd';
+import {
+  DesktopOutlined,
+  FileOutlined,
+  PieChartOutlined,
+  UserOutlined,
+  MenuOutlined,
+} from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
-// Función para generar los items del menú
+const { Sider } = Layout;
 
 const Sidebar = ({ collapsed, setCollapsed }) => {
+  const [isMobile, setIsMobile] = useState(false); // Detecta si es móvil
+  const [drawerOpen, setDrawerOpen] = useState(false); // Controla la apertura del Drawer
+
+  // Detecta si la pantalla es móvil
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    handleResize(); // Comprobación inicial
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const menuItems = [
+    { key: 'home', icon: <DesktopOutlined />, label: <Link to="/">Inicio</Link> },
+    { key: 'about', icon: <UserOutlined />, label: <Link to="/about">Sobre mí</Link> },
+    { key: 'projects', icon: <PieChartOutlined />, label: <Link to="/projects">Proyectos</Link> },
+    { key: 'contact', icon: <FileOutlined />, label: <Link to="/contact">Contacto</Link> },
+  ];
+
+  const renderMenu = (
+    <Menu
+      theme="dark"
+      mode="inline"
+      defaultSelectedKeys={['home']}
+      items={menuItems}
+    />
+  );
+
+  if (isMobile) {
+    return (
+      <>
+        {/* Botón para abrir/cerrar el Drawer */}
+        <Button
+          icon={<MenuOutlined />}
+          type="primary"
+          onClick={() => setDrawerOpen((prev) => !prev)} // Alterna el estado
+          style={{
+            position: 'fixed',
+            top: 16,
+            left: 16,
+            zIndex: 1001,
+          }}
+        />
+        <Drawer
+          title="Menú"
+          placement="left"
+          onClose={() => setDrawerOpen(false)} // Cierra el Drawer
+          open={drawerOpen} // Estado que controla la visibilidad
+          width={250}
+          bodyStyle={{ padding: 0 }}
+        >
+          {renderMenu}
+        </Drawer>
+      </>
+    );
+  }
+
   return (
-    <Layout.Sider
+    <Sider
       collapsible
       collapsed={collapsed}
-      onCollapse={(value) => setCollapsed(value)}
+      onCollapse={(value) => setCollapsed(value)} // Actualiza el estado colapsado
       width={250}
       style={{
-        position: 'fixed',  // Fija el Sidebar
-        height: '100vh',     // Ocupa toda la altura de la ventana
-        left: 0,             // Pegado a la izquierda
-        top: 0,              // Pegado a la parte superior
-        zIndex: 1000,        // Asegura que esté por encima del contenido
-        transition: 'all 0.3s', // Suaviza la transición al cambiar el estado
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        zIndex: 1000,
       }}
     >
       <div
@@ -29,35 +90,12 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
           textAlign: 'center',
           color: 'white',
           fontSize: '18px',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          transition: 'all 0.3s',
         }}
       >
-        {collapsed ? (
-          <div style={{ fontSize: '24px' }}>M</div>
-        ) : (
-          'Mi Portafolio'
-        )}
+        {collapsed ? 'M' : 'Mi Portafolio'}
       </div>
-      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-        
-        {/* Agregar los botones del header aquí */}
-        <Menu.Item key="home" icon={<DesktopOutlined />}>
-          <Link to="/">Inicio</Link>
-        </Menu.Item>
-        <Menu.Item key="about" icon={<UserOutlined />}>
-          <Link to="/about">Sobre mí</Link>
-        </Menu.Item>
-        <Menu.Item key="projects" icon={<PieChartOutlined />}>
-          <Link to="/projects">Proyectos</Link>
-        </Menu.Item>
-        <Menu.Item key="contact" icon={<FileOutlined />}>
-          <Link to="/contact">Contacto</Link>
-        </Menu.Item>
-      </Menu>
-    </Layout.Sider>
+      {renderMenu}
+    </Sider>
   );
 };
 
